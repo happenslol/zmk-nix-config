@@ -16,17 +16,32 @@
     forAllSystems = nixpkgs.lib.genAttrs (nixpkgs.lib.attrNames zmk-nix.packages);
   in {
     packages = forAllSystems (system: let
+      zephyrDepsHash = "sha256-mUJpGWlU+rGbcWtKs/SuombCJ3RcIDMTiuMicwLX1D4=";
+      src = nixpkgs.lib.sourceFilesBySuffices self [".conf" ".keymap" ".yml"];
+
       mkSplitKeyboard = {
         name,
         shield,
         board,
       }:
         zmk-nix.legacyPackages.${system}.buildSplitKeyboard {
-          inherit name shield board;
-          src = nixpkgs.lib.sourceFilesBySuffices self [".conf" ".keymap" ".yml"];
-          zephyrDepsHash = "sha256-mUJpGWlU+rGbcWtKs/SuombCJ3RcIDMTiuMicwLX1D4=";
+          inherit name shield board zephyrDepsHash src;
+        };
+
+      mkKeyboard = {
+        name,
+        shield,
+        board,
+      }:
+        zmk-nix.legacyPackages.${system}.buildKeyboard {
+          inherit name shield board zephyrDepsHash src;
         };
     in {
+      nano-reset = mkKeyboard {
+        name = "nano-reset";
+        shield = "settings_reset";
+        board = "nice_nano@2.0.0";
+      };
       sofle = mkSplitKeyboard {
         name = "sofle";
         shield = "sofle_%PART%";
@@ -34,7 +49,7 @@
       };
       corne = mkSplitKeyboard {
         name = "corne";
-        shield = "corne_%PART%";
+        shield = "corne_%PART% nice_view_adapter nice_view";
         board = "nice_nano@2.0.0";
       };
 
