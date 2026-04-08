@@ -12,18 +12,15 @@
 #define RAI 2
 #define NAV 3
 #define FNC 4
+#define MEN 5
+
+&mt {
+    flavor = "balanced";
+    tapping-term-ms = <150>;
+    quick-tap-ms = <100>;
+};
 
 / {
-    behaviors {
-        tdnav: tab_dance_nav {
-            compatible = "zmk,behavior-tap-dance";
-            #binding-cells = <0>;
-            // Since this only has modifiers, this can be as long as we want
-            tapping-term-ms = <400>;
-            bindings = <&mo NAV>, <&mo FNC>;
-        };
-    };
-
     keymap {
         compatible = "zmk,keymap";
 
@@ -33,14 +30,14 @@
 &kp ESC        &kp Q  &kp W  &kp E     &kp R   &kp T        &kp Y    &kp U   &kp I      &kp O    &kp P     &kp BSPC
 &mt LSHFT TAB  &kp A  &kp S  &kp D     &kp F   &kp G        &kp H    &kp J   &kp K      &kp L    &kp SEMI  &kp SQT
 &kp LCTRL      &kp Z  &kp X  &kp C     &kp V   &kp B        &kp N    &kp M   &kp COMMA  &kp DOT  &kp FSLH  &kp RET
-                             &kp LGUI  &mo LOW &kp SPACE    &tdnav   &mo RAI &mt LALT RALT
+                             &kp LGUI  &mo LOW &kp SPACE    &mo NAV  &mo RAI &mt LALT RALT
             >;
         };
 
         lower_layer {
             display-name = "LOWER";
             bindings = <
-&kp GRAVE   &kp N1     &kp N2     &kp N3     &kp N0     &trans           &trans     &trans     &trans     &trans     &trans     &trans
+&kp GRAVE   &kp N1     &kp N2     &kp N3     &kp N0     &trans           &trans     &kp HOME   &trans     &trans     &kp END    &trans
 &kp LS(TAB) &kp N4     &kp N5     &kp N6     &trans     &trans           &trans     &kp MINUS  &kp EQUAL  &kp LBKT   &kp RBKT   &kp BSLH
 &trans      &kp N7     &kp N8     &kp N9     &trans     &trans           &trans     &trans     &trans     &trans     &trans     &trans
                                   &trans     &trans     &trans           &trans     &trans     &trans
@@ -52,16 +49,17 @@
             bindings = <
 &kp TILDE  &kp EXCL   &kp AT     &kp HASH   &kp DOLLAR &kp PRCNT        &kp CARET  &kp AMPS   &kp STAR   &kp LPAR   &kp RPAR   &kp DEL
 &kp TAB    &trans     &trans     &trans     &trans     &trans           &trans     &kp UNDER  &kp PLUS   &kp LBRC   &kp RBRC   &kp PIPE
-&trans     &trans     &trans     &trans     &trans     &trans           &trans     &trans     &kp LT     &kp GT     &trans     &trans
+&trans     &trans     &trans     &trans     &trans     &trans           &trans     &trans     &kp PG_DN  &kp PG_UP  &kp LT     &kp GT
                                  &trans     &trans     &trans           &trans     &trans     &trans
             >;
         };
+
         nav_layer {
             display-name = "NAV";
             bindings = <
-&trans     &kp LA(N1) &kp LA(N2) &kp LA(N3) &kp LA(N0) &trans           &kp RG(Y)  &kp LG(N0) &kp LG(N1) &kp LG(N2) &kp LG(N3) &trans
-&trans     &kp LA(N4) &kp LA(N5) &kp LA(N6) &trans     &trans           &kp RG(H)  &kp RG(J)  &kp LG(N4) &kp LG(N5) &kp LG(N6) &trans
-&trans     &kp LA(N7) &kp LA(N8) &kp LA(N9) &trans     &trans           &trans     &kp RG(M)  &kp LG(N7) &kp LG(N8) &kp LG(N9) &trans
+&trans     &kp LA(N1) &kp LA(N2) &kp LA(N3) &kp LA(N0) &trans           &kp RG(Y)  &kp LG(N0) &kp LG(N1) &kp LG(N2) &kp LG(N3) &kp C_VOL_UP
+&trans     &kp LA(N4) &kp LA(N5) &kp LA(N6) &trans     &trans           &kp RG(H)  &kp RG(J)  &kp LG(N4) &kp LG(N5) &kp LG(N6) &kp C_VOL_DN
+&trans     &kp LA(N7) &kp LA(N8) &kp LA(N9) &trans     &trans           &trans     &kp RG(M)  &kp LG(N7) &kp LG(N8) &kp LG(N9) &kp C_MUTE
                                  &trans     &trans     &trans           &trans     &trans     &trans
             >;
         };
@@ -69,10 +67,20 @@
         fn_layer {
             display-name = "FUNC";
             bindings = <
-&kp LALT   &kp F1     &kp F2     &kp F3     &rgb_ug RGB_BRD &rgb_ug RGB_BRI     &out OUT_TOG    &trans       &kp F10    &kp F11    &kp F12    &kp LALT
-&kp LSHFT  &kp F4     &kp F5     &kp F6     &rgb_ug RGB_HUD &rgb_ug RGB_HUI     &kp LEFT        &kp DOWN     &kp UP     &kp RIGHT  &kp HOME   &kp END
+&kp LALT   &kp F1     &kp F2     &kp F3     &rgb_ug RGB_BRD &rgb_ug RGB_BRI     &out OUT_TOG    &trans          &kp F10    &kp F11    &kp F12    &kp LALT
+&kp LSHFT  &kp F4     &kp F5     &kp F6     &rgb_ug RGB_HUD &rgb_ug RGB_HUI     &kp LEFT        &kp DOWN        &kp UP     &kp RIGHT  &kp HOME   &kp END
 &trans     &kp F7     &kp F8     &kp F9     &rgb_ug RGB_SAD &rgb_ug RGB_SAI     &rgb_ug RGB_TOG &rgb_ug RGB_EFF &trans     &trans     &trans     &kp RSHFT
                                  &trans     &trans          &trans              &trans          &trans          &trans
+            >;
+        };
+
+        menu_layer {
+            display-name = "MENU";
+            bindings = <
+&bt BT_SEL 0  &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 3 &bt BT_SEL 4     &trans     &trans     &trans     &trans     &trans     &bt BT_CLR
+&out OUT_TOG  &trans       &trans       &trans       &trans       &trans           &trans     &trans     &trans     &trans     &trans     &trans
+&trans        &trans       &trans       &trans       &trans       &trans           &trans     &trans     &trans     &trans     &trans     &trans
+                                        &trans       &trans       &trans           &trans     &trans     &trans
             >;
         };
     };
@@ -82,6 +90,11 @@
         tri_layer {
             if-layers = <LOW RAI>;
             then-layer = <FNC>;
+        };
+
+        tri_layer_menu {
+            if-layers = <LOW NAV>;
+            then-layer = <MEN>;
         };
     };
 };
