@@ -15,9 +15,9 @@
 #define MEN 5
 
 &mt {
-    flavor = "balanced";
-    tapping-term-ms = <150>;
-    quick-tap-ms = <100>;
+    flavor = "hold-preferred";
+    tapping-term-ms = <200>;
+    quick-tap-ms = <150>;
 };
 
 / {
