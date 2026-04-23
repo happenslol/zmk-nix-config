@@ -35,14 +35,14 @@ echo "[$LABEL_DESC] Waiting for $LABEL bootloader on USB (Ctrl-C to abort)..."
 while [[ ! -e "$DEV" ]]; do
     sleep 0.3
 done
-echo "[$LABEL_DESC] Detected $LABEL at $(readlink -f "$DEV")."
+REAL_DEV="$(readlink -f "$DEV")"
+echo "[$LABEL_DESC] Detected $LABEL at $REAL_DEV."
 
-MOUNT="$(findmnt -n -o TARGET "$DEV" || true)"
-UNMOUNT_AFTER=0
+MOUNT="$(findmnt -n -o TARGET "$REAL_DEV" || true)"
 if [[ -z "$MOUNT" ]]; then
     echo "[$LABEL_DESC] Mounting via udisksctl..."
-    MOUNT="$(udisksctl mount -b "$DEV" --no-user-interaction | sed -n 's/^Mounted .* at \(.*\)\.$/\1/p')"
-    UNMOUNT_AFTER=1
+    udisksctl mount -b "$DEV" --no-user-interaction >/dev/null 2>&1 || true
+    MOUNT="$(findmnt -n -o TARGET "$REAL_DEV" || true)"
 fi
 
 if [[ -z "$MOUNT" || ! -d "$MOUNT" ]]; then
@@ -54,10 +54,6 @@ echo "[$LABEL_DESC] Copying $(basename "$FIRMWARE") to $MOUNT ..."
 cp "$FIRMWARE" "$MOUNT/" || true
 sync
 echo "[$LABEL_DESC] Flash complete. Bootloader will auto-reboot."
-
-if [[ "$UNMOUNT_AFTER" == "1" && -e "$DEV" ]]; then
-    udisksctl unmount -b "$DEV" --no-user-interaction 2>/dev/null || true
-fi
 
 # Wait for the device to disappear so a subsequent flash invocation
 # doesn't immediately pick up the same device.
