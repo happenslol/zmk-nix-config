@@ -26,14 +26,14 @@
             compatible = "zmk,behavior-tap-dance";
             #binding-cells = <0>;
             tapping-term-ms = <300>;
-            bindings = <&mo NAV>, <&mo MEN>;
+            bindings = <&mo NAV>, <&mo FNC>;
         };
 
         td_rai: tap_dance_rai {
             compatible = "zmk,behavior-tap-dance";
             #binding-cells = <0>;
             tapping-term-ms = <300>;
-            bindings = <&mo RAI>, <&mo FNC>;
+            bindings = <&mo RAI>, <&mo MEN>;
         };
     };
 
@@ -86,7 +86,7 @@
 &kp LALT   &kp F1     &kp F2     &kp F3     &rgb_ug RGB_BRD &rgb_ug RGB_BRI     &out OUT_TOG    &trans          &kp F10    &kp F11    &kp F12    &kp LALT
 &kp LSHFT  &kp F4     &kp F5     &kp F6     &rgb_ug RGB_HUD &rgb_ug RGB_HUI     &kp LEFT        &kp DOWN        &kp UP     &kp RIGHT  &kp HOME   &kp END
 &trans     &kp F7     &kp F8     &kp F9     &rgb_ug RGB_SAD &rgb_ug RGB_SAI     &rgb_ug RGB_TOG &rgb_ug RGB_EFF &trans     &trans     &trans     &kp RSHFT
-                                 &trans     &trans          &trans              &trans          &trans          &trans
+                                 &trans     &trans          &kp LALT            &trans          &trans          &trans
             >;
         };
 
@@ -96,21 +96,8 @@
 &bt BT_SEL 0  &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 3 &bt BT_SEL 4     &trans     &trans     &trans     &trans     &trans     &bt BT_CLR
 &out OUT_TOG  &trans       &trans       &trans       &trans       &trans           &trans     &trans     &trans     &trans     &trans     &trans
 &trans        &trans       &trans       &trans       &trans       &trans           &trans     &trans     &trans     &trans     &trans     &trans
-                                        &trans       &trans       &trans           &trans     &trans     &bootloader
+                                        &bootloader  &trans       &trans           &trans     &trans     &bootloader
             >;
-        };
-    };
-
-    conditional_layers {
-        compatible = "zmk,conditional-layers";
-        tri_layer {
-            if-layers = <LOW RAI>;
-            then-layer = <FNC>;
-        };
-
-        tri_layer_menu {
-            if-layers = <LOW NAV>;
-            then-layer = <MEN>;
         };
     };
 };
