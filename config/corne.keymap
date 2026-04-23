@@ -83,9 +83,9 @@
         fn_layer {
             display-name = "FUNC";
             bindings = <
-&kp LALT   &kp F1     &kp F2     &kp F3     &rgb_ug RGB_BRD &rgb_ug RGB_BRI     &out OUT_TOG    &trans          &kp F10    &kp F11    &kp F12    &kp LALT
-&kp LSHFT  &kp F4     &kp F5     &kp F6     &rgb_ug RGB_HUD &rgb_ug RGB_HUI     &kp LEFT        &kp DOWN        &kp UP     &kp RIGHT  &kp HOME   &kp END
-&trans     &kp F7     &kp F8     &kp F9     &rgb_ug RGB_SAD &rgb_ug RGB_SAI     &rgb_ug RGB_TOG &rgb_ug RGB_EFF &trans     &trans     &trans     &kp RSHFT
+&kp LALT   &kp F1     &kp F2     &kp F3     &trans          &trans              &trans          &trans          &kp F10    &kp F11    &kp F12    &trans
+&kp LSHFT  &kp F4     &kp F5     &kp F6     &trans          &trans              &kp LEFT        &kp DOWN        &kp UP     &kp RIGHT  &kp HOME   &kp END
+&trans     &kp F7     &kp F8     &kp F9     &trans          &trans              &trans          &kp PG_DN       &kp PG_UP  &trans     &trans     &trans
                                  &trans     &trans          &kp LALT            &trans          &trans          &trans
             >;
         };
